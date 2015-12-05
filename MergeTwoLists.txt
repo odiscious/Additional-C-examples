@@ -1,0 +1,161 @@
+int compare = 0; //TODO: REMOVE THIS COMPARE
+
+
+		if(list.head == NULL)
+		{
+			return;
+		}
+		//connect input list directly to output list via list to out
+		if(head == NULL)
+		{
+			Node *overOther = list.head;
+			while(overOther != NULL)
+			{
+				listToOut->Insert(overOther->value);
+				overOther = overOther->next;
+			}
+			head = listToOut->head;
+			listToOut = NULL;
+			return;
+		}
+
+		Node *overHead = NULL;
+		Node *overOther = NULL;
+		//now if both lists have nodes
+		if(ptrToOut == NULL)
+		{
+			overHead = head;
+			overOther = list.head;
+		}
+		else
+		{
+			overHead = ptrToOut;
+			overOther = list.head;
+		}
+		
+		//do first comparison
+		//int compare = Compare(overHead->value, overOther->value);
+
+		//another section dedicated to comparing data
+
+
+		if(overHead->value < overOther->value)
+		{
+			compare = -1;
+		}
+		else if(overHead->value == overOther->value)
+		{
+			compare = 0;
+		}
+		else
+		{
+			compare = 1;
+		}
+
+
+
+
+		//  
+
+
+		if(compare < 0 || compare == 0)
+		{
+			//TODO: allocate new memory and update HashMap
+			listToOut->Insert(overHead->value);
+			listToOut->Insert(overOther->value);
+		}
+		else
+		{
+			listToOut->Insert(overOther->value);
+			listToOut->Insert(overHead->value);
+		}
+		overHead = overHead->next;
+		overOther = overOther->next;
+		ptrToOut = listToOut->head->next;
+
+
+		//this compares the rest of the lists
+		while(overHead != NULL && overOther != NULL)
+		{
+			//need to compare 
+			//compare = Compare(overHead->value, overOther->value);
+
+			//section dedicated to comparing data...
+
+
+			
+			if(overHead->value < overOther->value)
+			{
+				compare = -1;
+			}
+			else if(overHead->value == overOther->value)
+			{
+				compare = 0;
+			}
+			else
+			{
+				compare = 1;
+			}
+
+			//
+			if(compare < 0 || compare == 0)
+			{
+				listToOut->Insert(overHead->value);
+				listToOut->Insert(overOther->value);
+			}
+			else
+			{
+				listToOut->Insert(overOther->value);
+				listToOut->Insert(overHead->value);
+			}
+			if(overHead->next == NULL || overOther->next == NULL)
+			{
+				if(overHead->value < overOther->value)
+				{
+					compare = -1;
+				}
+				else if(overHead->value == overOther->value)
+				{
+					compare = 0;
+				}
+				else
+				{
+					compare = 1;
+				}
+
+				//
+				if(compare < 0 || compare == 0)
+				{
+					listToOut->Insert(overHead->value);
+					listToOut->Insert(overOther->value);
+				}
+				else
+				{
+					listToOut->Insert(overOther->value);
+					listToOut->Insert(overHead->value);
+				}
+				ptrToOut = ptrToOut->next->next;
+				break;
+			}
+			overHead = overHead->next;
+			overOther = overOther->next;
+			ptrToOut = ptrToOut->next->next;
+		}
+		if(overHead != NULL)
+		{
+			while(overHead != NULL)
+			{
+				//listToOut.Insert(*overHead->value); //can't just call the insert function
+				listToOut->Insert(overHead->value); //runtime error passing by ref or not.
+				overHead = overHead->next;
+			}
+		}
+		if(overOther != NULL)
+		{
+			//listToOut.Insert(*overHead->value); //can't just call the insert function
+			listToOut->Insert(overOther->value); //runtime error passing by ref or not.
+			overOther = overOther->next;
+		}
+		Clear();
+		head = listToOut->head;
+		list.Clear();

@@ -1,0 +1,76 @@
+template <typename ItemType>
+bool List342<ItemType>::InsertByPointingToUniqueDataOnly(ItemType *ptrToData)
+{
+		//if Obj is not in the list
+		Node *ptr;
+
+		//if head is null create new node and point its value to ptrToData
+		if(head == NULL)
+		{
+			ptr = new Node;
+			ptr->value = ptrToData;
+			ptr->next = head;
+			head = ptr;
+			return true;
+		}
+		//make this check first
+		if (ptrToData == NULL) return false;                 // out of memory, bail
+
+
+		// if the node should be inserted before 
+		// the first node of the list
+		//does not cover all situations
+		//if < create new node, point to obj passed in, and insert
+		if(*ptrToData < *head->value)
+		{
+			ptr = new Node;
+			ptr->value = ptrToData;
+			ptr->next = head;
+			head = ptr;
+			return true;
+		}
+		//if == add new node, point to next node's obj, and insert
+		if(*ptrToData == *head->value)
+		{
+			return true;
+		}
+
+		// then check the rest of the list until we find where it belongs 
+		
+		Node *current = head->next;          // to walk list
+		Node *previous = head;               // to walk list, lags behind
+
+		// walk until end of the list or found position to insert
+		while (current != NULL) 
+		{
+			//does not cover all situations
+			//if < create new node, point to obj passed in, and insert
+			if(*ptrToData < *current->value)
+			{
+				ptr = new Node;
+				ptr->value = ptrToData;
+				ptr->next = current;
+				previous->next = ptr;
+				return true;
+			}
+			//if == add new node, point to next node's obj, and insert
+			if(*ptrToData == *current->value)
+			{
+				return true;
+			}
+			previous = current;                  // walk to next node
+			current = current->next;
+		}
+		if(current == NULL)
+		{
+			ptr = new Node;
+			ptr->value = ptrToData;
+			ptr->next = NULL;
+			previous->next = ptr;
+			return true;
+		}
+		previous = NULL;
+		current = NULL;
+		
+		return true;
+}
